@@ -161,23 +161,40 @@
     shareButton.addEventListener('click', (ev) => {
       console.log('share button was clicked')
       // TODO redirect to a sharable link by completing the steps below
+      const searchParams = new URLSearchParams();
 
       // 1. get the current state from localStorage
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);  // Get key at index i
+        const value = localStorage.getItem(key);  // Get corresponding value
+        searchParams.append(key, value);  // Output the key-value pair
+      }
 
       // 2. create a URLSearchParams object from the data you retrieved from localStorage
+      console.log(searchParams.toString());
 
       // 3. get the current url from window.location
+      let url = window.location.href;
 
       // 4. set the current url's search property to '?' concatenated with: the urlsearchparams object's tostring 
+      const newUrl = url.split('?')[0] + '?' + searchParams.toString();
+
 
       // 5. update the window.location to the result of the preceding step
+      window.location.href = newUrl;
     })
 
     function populateLocalStorageFromURLSeach() {
       console.log('populateLocalStorageFromURLSeach')
       // TODO update from URL by completing the steps below:
       // 1. when the page loads, look to see if the url has a querystring that has the kind of data you added to it above
+      const queryParams = new URLSearchParams(window.location.search);
+
       // 2. if there is such data in the querystring, replace the state in localStorage with the data in the URL
+      localStorage.clear();
+      queryParams.forEach((value, key) => {
+        localStorage.setItem(key, value);
+      });
     }
 
     // initialize the page
